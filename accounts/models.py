@@ -7,6 +7,6 @@ from django_resized import ResizedImageField
 class User(AbstractUser):
     profile_image = ResizedImageField(
         size=[500,500],
-        crop=['moddle','center'],
+        crop=['middle','center'],
         upload_to='profile',
     )
