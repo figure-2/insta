@@ -23,6 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('posts/', include('posts.urls')),
     path('accounts/', include('accounts.urls')),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT )
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 #  이 부분이 insta의 맨 아래쪽 MEDIA_URL 과 MEDIA_ROOR 에 연동해준다.
 #  settings.MEDIA_URL 이쪽으로 오면 데이터는 document_root=settings.MEDIA_ROOT 에 있어 라는 의미.

@@ -1,19 +1,42 @@
-<div class="card mt-5" style="width: 18rem;">
-    
+{% load bootstrap5 %}
+<div class="card mt-4">
     <div class="card-header">
         <p>
-            <img src="{{post.user.profile_image.url}}" class="rounded-circle" width="50px">
-            <a href="{% url 'accounts:profile' username=post.user %}"> {{post.user}} </a>
+            <img src="{{post.user.profile_image.url}}" alt="" class="rounded-circle" width="50px">
+            <a href="{% url 'accounts:profile' username=post.user %}" class="text-reset text-decoration-none">{{post.user}}</a>
         </p>
     </div>
-
-    <img src="{{post.image.url}}" class="card-img-top" alt="...">
+    <img src="{{post.image.url}}" alt="...">
     <div class="card-body">
-      <!-- <h5 class="card-title">Card title</h5> -->
-      <p class="card-text">{{post.content}}</p>
-      <p class="card-text">{{post.created_at|timesince}}</p>
-      <!-- <p>{{post.image}}</p>
-      <p>{{post.image.url}}</p> -->
-      <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+
+        <h5 class="card-title"></h5>
+        <a href="{% url 'posts:like' post_id=post.id %}">
+            {% if post in user.like_posts.all %}
+                <i class="bi bi-balloon-heart-fill" style="color: blue"></i> 
+            {% else %}
+                <i class="bi bi-balloon-heart-"></i>
+            {% endif %}
+        </a> {{post.like_users.all|length}} 명이 좋아합니다.
+
+        <p class="card-text">{{post.content}}</p>
+        <p class="card-text">{{post.created_at|timesince}}</p>
+        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
     </div>
-  </div>
+    <div class="card-footer">
+        {% if user.is_authenticated %}
+        <form action="{% url 'posts:comment_create' post_id=post.id %}" method="POST">
+            <!-- post_id는 변수명 post.id 객체 -->
+            {% csrf_token %}
+            {% bootstrap_form comment_form%}
+            <input type="submit">
+        </form>
+        <hr>
+        {% endif %}
+
+
+        {% for comment in post.comment_set.all %}
+            <li>{{comment.user}} : {{comment.content}}</li>
+        {% endfor %}
+    </div>
+
+</div>

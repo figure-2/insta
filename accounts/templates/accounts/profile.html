@@ -9,12 +9,23 @@
     <div class="col-8">
         <div class="row">
             <div class="col-3">{{user_info.username}}</div>
-            <div class="col-4"><a href="">팔로우</a></div>
-        </div>
+            
+            {% if user != user_info %}
+            <!-- user는  지금 로그인한 사람  user_info 프로필페이지에 접속한 유저 -->
+            <div class="col-4">
+                {% if user in user_info.followers.all %}
+                <!-- {% if user_info in user_info.followers.all %} -->
+                    <a href="{% url 'accounts:follow' username=user_info.username %}" class="btn btn-primary btn-sm">팔로우</a></div>
+                {% elds %}
+                    <a href="{% url 'accounts:follow' username=user_info.username %}" class="btn btn-secondary btn-sm">팔로우</a></div>
+                {% endif %}
+            </div>
+            {% endif %}
         <div class="row">
-            <div class="col">게시물</div>
-            <div class="col">팔로잉</div>
-            <div class="col">팔로우</div>
+            <div class="col">게시물 {{user_info.post_set.all|length}} </div>
+            <div class="col">팔로워 {{user_info.followers.all|length}} </div>
+            <!-- accounts/models.py의 following 와 연결 -->
+            <div class="col">팔로우 {{user_info.following.all|length}} </div>
         </div>
     </div>
 </div>
